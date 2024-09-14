@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Sneha's App</title>
+		<style>
+			* { font-size: 65px; }
+			body { background-color: pink; }
+			.btn { width: 40%; }
+			.btn:hover { color: blue; }
+			h3 { border: dashed; width: 50%; border-radius: 50px; }
+		</style>
+
+		<script>
+			function count(event) {
+				event.preventDefault();
+				let msg = document.getElementById("id_msg");
+				let author = document.getElementById("id_author");
+
+				
+				let randomParam = '?t=' + Math.random();
+
+				fetch('https://api.allorigins.win/get?url=https://zenquotes.io/api/random' + randomParam)
+				.then(response => response.json())
+				.then(data => {
+					let parsedData = JSON.parse(data.contents);  
+					msg.textContent = parsedData[0].q;  
+					author.textContent = "- " + parsedData[0].a;  
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					msg.textContent = "Unable to fetch the quote.";
+					author.textContent = "";
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<center>
+			<h1>Motivational Message App</h1>
+			<form onsubmit="count(event)">
+				<input type="submit" value="View Mssg" class="btn" />
+			</form>
+			<h3 id="id_msg"></h3>
+			<h3 id="id_author"></h3>
+		</center>
+	</body>
+</html>
